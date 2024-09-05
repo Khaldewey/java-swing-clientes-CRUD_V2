@@ -5,18 +5,26 @@
 package swing.customer.crud;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import swing.customer.crud.dao.ClienteMapDAO;
+import swing.customer.crud.dao.IClienteDAO;
+import swing.customer.crud.domain.Cliente;
 
 /**
  *
  * @author W10
  */
 public class TelaPrincipal extends javax.swing.JFrame {
+    
+    private DefaultTableModel modelo = new DefaultTableModel();
+    private IClienteDAO clienteDAO = new ClienteMapDAO();
 
     /**
      * Creates new form TelaPrincipal
      */
     public TelaPrincipal() {
         initComponents();
+        initCustomComponents();
     }
 
     /**
@@ -31,6 +39,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblNome = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
+        lblCpf = new javax.swing.JLabel();
+        txtCpf = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelaClientes = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemSair = new javax.swing.JMenuItem();
@@ -45,6 +57,27 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 btnSalvarActionPerformed(evt);
             }
         });
+
+        lblCpf.setText("CPF:");
+
+        txtCpf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCpfActionPerformed(evt);
+            }
+        });
+
+        tabelaClientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tabelaClientes);
 
         jMenu1.setText("Opções");
 
@@ -71,8 +104,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblNome)
                         .addGap(18, 18, 18)
-                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(324, Short.MAX_VALUE))
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(lblCpf)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,10 +118,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNome)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(169, 169, 169)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCpf)
+                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(58, 58, 58)
                 .addComponent(btnSalvar)
-                .addContainerGap(386, Short.MAX_VALUE))
+                .addGap(49, 49, 49)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(227, Short.MAX_VALUE))
         );
 
         pack();
@@ -102,8 +144,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         String nome = txtNome.getText();
-        JOptionPane.showMessageDialog(null, "Olá " +nome, "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+        String cpf = txtCpf.getText();
+        if (!isCamposValidos(nome, cpf)){
+            JOptionPane.showMessageDialog(null, "Campos vazios não permitidos", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+         return;
+        }
+        Cliente cliente = new Cliente(nome,cpf, cpf, null, cpf, null, null);
+        Boolean isCadastrado = this.clienteDAO.cadastrar(cliente);
+        if (isCadastrado){
+            modelo.addRow(new Object[]{cliente.getNome(), cliente.getCpf()});
+            limparCampos();
+        }else {
+            JOptionPane.showMessageDialog(null, "Cliente já cadastrado.", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void txtCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCpfActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,7 +205,33 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItemSair;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCpf;
     private javax.swing.JLabel lblNome;
+    private javax.swing.JTable tabelaClientes;
+    private javax.swing.JTextField txtCpf;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
+
+    private boolean isCamposValidos(String ...campos) {
+        for ( String campo : campos){
+            if( campos == null || "".equals(campo)){
+            return false;
+            }
+        }
+        
+        return true;
+    }
+
+    private void initCustomComponents() {
+        modelo.addColumn("Nome");
+        modelo.addColumn("Cpf");
+        
+        tabelaClientes.setModel(modelo);
+    }
+
+    private void limparCampos() {
+       txtNome.setText("");
+       txtCpf.setText("");
+    }
 }
