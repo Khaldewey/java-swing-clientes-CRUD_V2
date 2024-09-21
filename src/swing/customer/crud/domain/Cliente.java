@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * @author israel.alves
  */
-public class Cliente {
+public class Cliente implements Persistencia{
 
     private String nome;
     private Long cpf;
@@ -105,5 +105,10 @@ public class Cliente {
                 "nome='" + nome + '\'' +
                 ", cpf=" + cpf +
                 '}';
+    }
+
+    @Override
+    public Long getCodigo() {
+        return this.cpf;
     }
 }

@@ -5,6 +5,7 @@
 package swing.customer.crud.dao;
 
 import java.util.Collection;
+import swing.customer.crud.dao.generic.IGenericDAO;
 import swing.customer.crud.domain.Cliente;
 
 
@@ -12,15 +13,15 @@ import swing.customer.crud.domain.Cliente;
 /**
  * @author rodrigo.pires
  */
-public interface IClienteDAO {
+public interface IClienteDAO extends IGenericDAO<Cliente>{
 
-    public Boolean cadastrar(Cliente cliente);
-
-    public void excluir(Long cpf);
-
-    public void alterar(Cliente cliente);
-
-    public Cliente consultar(Long cpf);
-
-    public Collection<Cliente> buscarTodos();
+//    public Boolean cadastrar(Cliente cliente);
+//
+//    public void excluir(Long cpf);
+//
+//    public void alterar(Cliente cliente);
+//
+//    public Cliente consultar(Long cpf);
+//
+//    public Collection<Cliente> buscarTodos();
 }
