@@ -19,6 +19,8 @@ public abstract class GenericDAO<T extends Persistencia> implements IGenericDAO<
     
     public abstract Class<T> getTipoClasse();
     
+    public abstract void alterarLogica(T entity, T entityCadastrado);
+    
     public GenericDAO(){
      this.map = new HashMap();
      Map<Long, T> mapaInterno = this.map.get(getTipoClasse());
@@ -29,20 +31,34 @@ public abstract class GenericDAO<T extends Persistencia> implements IGenericDAO<
     }
     @Override
     public Collection<T> buscarTodos(){
-    return null; 
+        Map<Long, T> mapaInterno = this.map.get(getTipoClasse());
+       return mapaInterno.values();
+     
     }
 
     @Override
     public T consultar(Long valor){
-    return null; 
+       Map<Long, T> mapaInterno = this.map.get(getTipoClasse());
+       return mapaInterno.get(valor); 
     }
 
     @Override
     public void alterar(T entity){
+        Map<Long, T> mapaInterno = this.map.get(getTipoClasse());
+         T objetoCadastrado = mapaInterno.get(entity.getCodigo());
+         if (objetoCadastrado != null) {
+            alterarLogica(entity, objetoCadastrado);
+        }
     }
 
     @Override
     public void excluir(Long valor){
+        Map<Long, T> mapaInterno = this.map.get(getTipoClasse());
+        T objetoCadastrado = mapaInterno.get(valor);
+
+       if (objetoCadastrado != null) {
+           this.map.remove(valor, objetoCadastrado);
+        }
     }
 
     @Override

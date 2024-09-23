@@ -27,6 +27,18 @@ public class ClienteMapDAO extends GenericDAO<Cliente> implements IClienteDAO {
       @Override
       public Class<Cliente> getTipoClasse() {
         return Cliente.class;
+        
+        
+      } 
+      
+      @Override
+      public void alterarLogica(Cliente cliente, Cliente clienteCadastrado) {
+            clienteCadastrado.setNome(cliente.getNome());
+            clienteCadastrado.setTel(cliente.getTel());
+            clienteCadastrado.setNumero(cliente.getNumero());
+            clienteCadastrado.setEnd(cliente.getEnd());
+            clienteCadastrado.setCidade(cliente.getCidade());
+            clienteCadastrado.setEstado(cliente.getEstado());
       }
 //    private Map<Long, Cliente> map;
 //
@@ -74,4 +86,6 @@ public class ClienteMapDAO extends GenericDAO<Cliente> implements IClienteDAO {
 //    public Collection<Cliente> buscarTodos() {
 //        return this.map.values();
 //    }
+
+    
 }
