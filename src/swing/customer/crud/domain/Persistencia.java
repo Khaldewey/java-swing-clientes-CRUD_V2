@@ -10,5 +10,5 @@ package swing.customer.crud.domain;
  */
 public interface Persistencia {
     
-    public Long getCodigo();
+//    public Long getCodigo();
 }

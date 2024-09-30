@@ -15,10 +15,10 @@ public class Produto implements Persistencia {
     private Long codigo; 
     private String nome; 
 
-    @Override
-    public Long getCodigo() {
-        return codigo;
-    }
+//    @Override
+//    public Long getCodigo() {
+//        return codigo;
+//    }
 
     public void setCodigo(Long codigo) {
         this.codigo = codigo;

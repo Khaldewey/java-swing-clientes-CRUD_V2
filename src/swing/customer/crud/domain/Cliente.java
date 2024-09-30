@@ -4,14 +4,17 @@
  */
 package swing.customer.crud.domain;
 
+import annotations.TipoChave;
 import java.util.Objects;
 
 /**
  * @author israel.alves
  */
 public class Cliente implements Persistencia{
-
+    
+    
     private String nome;
+    @TipoChave("getCpf")
     private Long cpf;
     private Long tel;
     private String end;
@@ -107,8 +110,8 @@ public class Cliente implements Persistencia{
                 '}';
     }
 
-    @Override
-    public Long getCodigo() {
-        return this.cpf;
-    }
+//    @Override
+//    public Long getCodigo() {
+//        return this.cpf;
+//    }
 }
